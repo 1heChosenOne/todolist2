@@ -1,4 +1,5 @@
 from fastapi import FastAPI,Depends,HTTPException
+
 from database import engine
 from pydantic_schemas import user,usercreate,taskcreate,task,Status
 from typing import Annotated
@@ -65,9 +66,6 @@ async def get_all_users(conn=Depends(get_conn)):
 async def get_all_tasks(conn=Depends(get_conn)):
     result=conn.execute(text("SELECT * FROM tasks")).fetchall()
     return (dict(row._mapping) for row in result)
-# @app.get("/Tasks")
-# async def alltasks(db:Annotated[Session,Depends(get_db)]):
-#     return db.query(Task).all()
 
 @app.get("/Users/{user_id}")
 async def get_user(user_id:int,conn=Depends(get_conn)):
@@ -122,3 +120,4 @@ async def delete_task(task_id:int,conn=Depends(get_conn)):
     conn.execute(text("DELETE FROM tasks WHERE id=:id"),{"id":task_id})
     conn.commit()
     return {"message":f"task with id {task_id} and attributes {deletable_user} deleted"}
+

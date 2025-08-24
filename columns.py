@@ -15,3 +15,4 @@ with engine.begin() as conn:
                     status TEXT DEFAULT "todo",
                     owner_id INTEGER ,
                     FOREIGN KEY (owner_id) REFERENCES users(id))"""))
+
